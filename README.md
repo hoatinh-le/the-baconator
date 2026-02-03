@@ -1,6 +1,13 @@
 # the-baconator
 
 
-Download as ZIP, go to chrome://extensions
+## Steps for Installation
 
-When there, load unpacked in the top left, add the file which you downloaded, and then click open. After, go to the puzzle icon and open it. Should be called the Baconator.
+1. Download the project as a zip file.
+2. Open the zip file
+3. Go to chrome://extensions
+4. Turn on developer mode
+5. In the top left corner click "Load Unpacked"
+6. Locate the file and select open.
+7. Done! You can now click the puzzle icon in your tool bar to locate THE BACONATOR...
+8. Have fun!
