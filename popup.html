@@ -1,0 +1,180 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>THE BACONATOR 🥓</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <!-- Top bar -->
+      <header class="topbar">
+        <button id="menuBtn" class="iconBtn" aria-label="Open menu" title="Menu">
+        <span class="hamburger" aria-hidden="true"><span></span></span>
+        </button>
+
+        <div class="topbarTitle">
+          <div class="title">THE BACONATOR 🥓</div>
+          <div class="subtitle">Shortest click path between two pages.</div>
+        </div>
+
+        <div id="spinner" class="spinner hidden" aria-label="Loading"></div>
+      </header>
+
+      <!-- MAIN VIEW -->
+      <main id="mainView" class="view">
+        <!-- Inputs -->
+        <div class="card">
+          <label class="label">
+            Start (title or URL)
+            <input id="start" class="input" placeholder="Bacon" />
+          </label>
+
+          <label class="label">
+            Goal (title or URL)
+            <input id="goal" class="input" placeholder="Terminator (franchise)" />
+          </label>
+
+          <div class="grid3">
+            <label class="label">
+              Depth
+              <input id="depth" class="input" type="number" min="1" max="30" value="12" />
+            </label>
+
+            <label class="label">
+              Max links
+              <input id="maxLinks" class="input" type="number" min="50" max="5000" value="300" />
+            </label>
+
+            <label class="label">
+              Max backlinks
+              <input id="maxBacklinks" class="input" type="number" min="50" max="5000" value="300" />
+            </label>
+          </div>
+
+          <div class="grid2">
+            <label class="label">
+              Concurrency
+              <input id="concurrency" class="input" type="number" min="2" max="30" value="10" />
+            </label>
+
+            <label class="label">
+              Filter hubs
+              <select id="filterBad" class="input">
+                <option value="on" selected>On</option>
+                <option value="off">Off</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="actions">
+            <button id="go" class="btn primary">Find path</button>
+            <button id="stop" class="btn ghost" disabled>Stop</button>
+          </div>
+        </div>
+
+        <!-- Console -->
+        <div class="card console">
+          <div class="consoleTop">
+            <div class="consoleTitle">Console</div>
+            <div id="timing" class="timing"></div>
+          </div>
+
+          <div id="status" class="status">Ready.</div>
+
+          <div class="bar">
+            <div id="barFill" class="barFill" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div class="spacer"></div>
+
+        <!-- Path -->
+        <div id="resultsCard" class="card hidden">
+          <div class="resultsHeader">
+            <div class="resultsTitle">Path</div>
+            <div id="clickCount" class="pill"></div>
+          </div>
+          <ol id="result" class="result"></ol>
+        </div>
+      </main>
+
+      <!-- MENU VIEW (slides in) -->
+      <aside id="menuView" class="menuView" aria-hidden="true">
+        <div class="menuHeader">
+          <button id="backBtn" class="iconBtn" aria-label="Back" title="Back">
+            ←
+          </button>
+          <div class="menuTitle">Settings & About</div>
+        </div>
+
+        <div class="menuBody">
+          <div class="menuSection">
+            <div class="menuSectionTitle">What this does</div>
+            <p class="menuText">
+              Finds the shortest click path between two Wikipedia pages.
+              It uses a bidirectional search: forward expands outgoing links,
+              backward expands backlinks, with iterative deepening for shortest paths.
+            </p>
+          </div>
+
+          <div class="menuSection">
+            <div class="menuSectionTitle">Settings</div>
+
+            <div class="menuRow">
+              <div class="menuRowLeft">
+                <div class="menuRowTitle">Depth ceiling</div>
+                <div class="menuRowHint">Higher finds longer paths, but slower.</div>
+              </div>
+              <div class="menuRowRight"><span id="sDepth"></span></div>
+            </div>
+
+            <div class="menuRow">
+              <div class="menuRowLeft">
+                <div class="menuRowTitle">Max links / backlinks</div>
+                <div class="menuRowHint">Caps per page. Higher = more complete, slower.</div>
+              </div>
+              <div class="menuRowRight"><span id="sCaps"></span></div>
+            </div>
+
+            <div class="menuRow">
+              <div class="menuRowLeft">
+                <div class="menuRowTitle">Concurrency</div>
+                <div class="menuRowHint">Parallel requests. Too high can trigger rate limits.</div>
+              </div>
+              <div class="menuRowRight"><span id="sConc"></span></div>
+            </div>
+
+            <div class="menuRow">
+              <div class="menuRowLeft">
+                <div class="menuRowTitle">Filter hubs</div>
+                <div class="menuRowHint">Skips “List of…”, years, disambiguation pages.</div>
+              </div>
+              <div class="menuRowRight"><span id="sFilter"></span></div>
+            </div>
+          </div>
+
+          <div class="menuSection">
+            <div class="menuSectionTitle">Tips</div>
+            <ul class="menuList">
+              <li>If you see “No path found”, try raising caps before depth.</li>
+              <li>If it gets slow, lower concurrency to ~6–10.</li>
+              <li>Some pages have massive backlinks; caps matter a lot.</li>
+            </ul>
+          </div>
+
+          <div class="menuSection">
+            <div class="menuSectionTitle">About</div>
+            <p class="menuText">
+              Data source: Wikipedia / MediaWiki API. This extension does not need your browsing history.
+            </p>
+          </div>
+        </div>
+      </aside>
+
+      <div id="confetti" class="confettiLayer"></div>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
